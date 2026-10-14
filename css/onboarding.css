@@ -64,6 +64,46 @@
     margin-top: 24px;
 }
 
+.recommendation-banner {
+    position: relative;
+    overflow: hidden;
+    min-height: 220px;
+    background-color: var(--ivory);
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(248, 244, 236, .97) 0%,
+            rgba(248, 244, 236, .9) 48%,
+            rgba(248, 244, 236, .35) 100%
+        ),
+        url("../assets/images/backgrounds/onboarding-recommendation-banner.png");
+    background-position: center, 68% center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.recommendation-content {
+    max-width: 620px;
+}
+
+.recommendation-banner .btn {
+    margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+    .recommendation-banner {
+        background-image:
+            linear-gradient(
+                90deg,
+                rgba(248, 244, 236, .97) 0%,
+                rgba(248, 244, 236, .9) 56%,
+                rgba(248, 244, 236, .62) 100%
+            ),
+            url("../assets/images/backgrounds/onboarding-recommendation-banner.png");
+        background-position: center, 68% center;
+    }
+}
+
 @media (max-width: 650px) {
     .choice-grid {
         grid-template-columns: 1fr 1fr;
@@ -72,5 +112,17 @@
     .choice-card {
         min-height: 135px;
         padding: 14px;
+    }
+
+    .recommendation-banner {
+        min-height: 0;
+        background-image:
+            linear-gradient(
+                90deg,
+                rgba(248, 244, 236, .96) 0%,
+                rgba(248, 244, 236, .9) 100%
+            ),
+            url("../assets/images/backgrounds/onboarding-recommendation-banner.png");
+        background-position: center, 66% center;
     }
 }
