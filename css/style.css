@@ -762,20 +762,23 @@ p {
     padding: 0;
 }
 
+
 .challenge-art {
     position: relative;
-    display: grid;
-    height: 142px;
-    place-items: center;
+    display: block;
+    width: 100%;
+    height: 210px;
     overflow: hidden;
 }
 
 .challenge-art img {
     position: relative;
     z-index: 1;
-    width: 154px;
-    height: 118px;
-    object-fit: contain;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
 }
 
 .challenge-art .art-emoji {

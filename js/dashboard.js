@@ -73,44 +73,54 @@ document.addEventListener('DOMContentLoaded', () => {
         .filter(e => e.status === 'in-progress')
         .map(e => e.challengeId);
 
-    const active = activeIds
-        .map(id => LevelUpData.challengeById(id))
-        .filter(Boolean);
 
-    document.getElementById('dashboard-active').innerHTML =
-        active.length
-            ? active.slice(0, 3).map(LevelUpUI.challengeCard).join('')
-            : LevelUpUI.emptyState(
-                'No active challenges yet',
-                'Choose your first challenge to get started.',
-                '<a class="btn btn-primary" href="challenges.html">Explore Challenges</a>'
-            );
+const active = activeIds
+    .map(id => LevelUpData.challengeById(id))
+    .filter(Boolean);
 
-    const recommendation = LevelUpData.getChallenges()
-        .filter(c => c.status === 'active' && !activeIds.includes(c.id))
-        .filter(
-            c =>
-                !c.prerequisite ||
-                subs.some(
-                    x =>
-                        x.challengeId === c.prerequisite &&
-                        x.status === 'approved'
-                ) ||
-                en.some(
-                    e =>
-                        e.challengeId === c.prerequisite &&
-                        e.status === 'completed'
-                )
-        )
-        .slice(0, 3);
+document.getElementById('dashboard-active').innerHTML =
+    active.length
+        ? active.slice(0, 3)
+            .map(challenge => LevelUpUI.challengeCard(challenge))
+            .join('')
+        : LevelUpUI.emptyState(
+            'No active challenges yet',
+            'Choose your first challenge to get started.',
+            '<a class="btn btn-primary" href="challenges.html">Explore Challenges</a>'
+        );
 
-    document.getElementById('dashboard-recommended').innerHTML =
-        recommendation.map(LevelUpUI.challengeCard).join('') ||
-        LevelUpUI.emptyState(
+    
+
+const recommendation = LevelUpData.getChallenges()
+    .filter(c => c.status === 'active' && !activeIds.includes(c.id))
+    .filter(
+        c =>
+            !c.prerequisite ||
+            subs.some(
+                x =>
+                    x.challengeId === c.prerequisite &&
+                    x.status === 'approved'
+            ) ||
+            en.some(
+                e =>
+                    e.challengeId === c.prerequisite &&
+                    e.status === 'completed'
+            )
+    )
+    .slice(0, 4);
+
+document.getElementById('dashboard-recommended').innerHTML =
+    recommendation.length
+        ? recommendation
+            .map(challenge => LevelUpUI.challengeCard(challenge))
+            .join('')
+        : LevelUpUI.emptyState(
             'Everything is covered',
             'Try exploring another development path.',
             '<a class="btn btn-primary" href="challenges.html">View Challenges</a>'
         );
+
+
 
     const earned = LS.get('earnedAchievements', []).filter(
         a => a.userId === s.userId

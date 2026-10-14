@@ -25,7 +25,7 @@
             prerequisite: null,
             status: 'active',
             icon: '📚',
-            art: 'assets/images/illustrations/reading.svg',
+            art: 'assets/images/challenges/learning/Reading Habit.png',
             featured: true
         },
         {
@@ -53,7 +53,7 @@
             prerequisite: 'reading-01',
             status: 'active',
             icon: '✍️',
-            art: 'assets/images/illustrations/reading.svg',
+            art: 'assets/images/challenges/learning/Reading Reflection.png',
             featured: true
         },
         {
@@ -82,7 +82,7 @@
             prerequisite: 'reading-02',
             status: 'active',
             icon: '🧠',
-            art: 'assets/images/illustrations/reading.svg',
+            art: 'assets/images/challenges/learning/Critical Thinking.png',
             featured: false
         },
         {
@@ -110,7 +110,7 @@
             prerequisite: null,
             status: 'active',
             icon: '🎨',
-            art: 'assets/images/illustrations/creative.svg',
+            art: 'assets/images/challenges/creative/Visual Observation.png',
             featured: true
         },
         {
@@ -139,7 +139,7 @@
             prerequisite: 'creative-01',
             status: 'active',
             icon: '🖼️',
-            art: 'assets/images/illustrations/creative.svg',
+            art: 'assets/images/challenges/creative/Basic Composition.png',
             featured: true
         },
         {
@@ -168,7 +168,7 @@
             prerequisite: 'creative-02',
             status: 'active',
             icon: '✳️',
-            art: 'assets/images/illustrations/creative.svg',
+            art: 'assets/images/challenges/creative/Design Challenge.png',
             featured: false
         },
         {
@@ -196,7 +196,7 @@
             prerequisite: null,
             status: 'active',
             icon: '🌱',
-            art: 'assets/images/illustrations/healthy.svg',
+            art: 'assets/images/challenges/healthy/Morning Routine.png',
             featured: true
         },
         {
@@ -225,7 +225,7 @@
             prerequisite: null,
             status: 'active',
             icon: '💻',
-            art: 'assets/images/illustrations/creative.svg',
+            art: 'assets/images/challenges/programming/Problem Solving Basics.png',
             featured: false
         },
         {
@@ -254,7 +254,7 @@
             prerequisite: 'code-01',
             status: 'active',
             icon: '🚀',
-            art: 'assets/images/illustrations/creative.svg',
+            art: 'assets/images/challenges/programming/Mini Coding Project.png',
             featured: false
         }
     ];
@@ -270,7 +270,7 @@
             duration: '15 days',
             level: 'Beginner → Intermediate',
             icon: '📚',
-            art: 'assets/images/illustrations/reading.svg',
+            art: 'assets/images/growth-plan/Reading & Critical Thinking.jpeg',
             challengeIds: [
                 'reading-01',
                 'reading-02',
@@ -288,7 +288,7 @@
             duration: '14 days',
             level: 'Beginner → Intermediate',
             icon: '🎨',
-            art: 'assets/images/illustrations/creative.svg',
+            art: 'assets/images/growth-plan/Creative Design Journey.jpeg',
             challengeIds: [
                 'creative-01',
                 'creative-02',
@@ -306,7 +306,7 @@
             duration: '5 days',
             level: 'Beginner',
             icon: '🌿',
-            art: 'assets/images/illustrations/healthy.svg',
+            art: 'assets/images/growth-plan/Healthy Habit Starter.jpeg',
             challengeIds: [
                 'healthy-01'
             ],
@@ -322,7 +322,7 @@
             duration: '11 days',
             level: 'Beginner → Intermediate',
             icon: '💻',
-            art: 'assets/images/illustrations/creative.svg',
+            art: 'assets/images/growth-plan/Programming Foundation.jpeg',
             challengeIds: [
                 'code-01',
                 'code-02'
@@ -635,7 +635,38 @@
         if (migrationSucceeded) {
             LS.set('englishCatalogMigrationV1', true);
         }
+        
     }
+    
+    if (!LS.get('challengeArtSyncV2', false)) {
+        const savedChallenges = LS.get('challenges', []);
+
+        if (Array.isArray(savedChallenges)) {
+            const defaultArtById = new Map(
+                challenges.map(challenge => [
+                    challenge.id,
+                    challenge.art
+                ])
+            );
+
+            const updatedChallenges = savedChallenges.map(challenge => {
+                const newArt = defaultArtById.get(challenge.id);
+
+                if (!newArt) {
+                    return challenge;
+                }
+
+                return {
+                    ...challenge,
+                    art: newArt
+                };
+            });
+
+            LS.set('challenges', updatedChallenges);
+            LS.set('challengeArtSyncV2', true);
+        }
+    }
+
 
     const updatedUsers = LS.get('users', []).map(user =>
     user.id === 'user-demo'
